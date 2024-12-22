@@ -20,11 +20,11 @@ export function SearchComponent({ onLocationSelect }: SearchProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Custom debounce implementation
-  const debounce = (callback: (...args: any[]) => void, delay: number) => {
+  const debounce = (callback: (searchQuery: string) => Promise<void>, delay: number) => {
     let timer: NodeJS.Timeout;
-    return (...args: any[]) => {
+    return (searchQuery: string) => {
       if (timer) clearTimeout(timer);
-      timer = setTimeout(() => callback(...args), delay);
+      timer = setTimeout(() => callback(searchQuery), delay);
     };
   };
 

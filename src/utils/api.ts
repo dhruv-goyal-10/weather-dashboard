@@ -32,7 +32,7 @@ export async function getWeatherData(lat: number, lon: number): Promise<WeatherD
     icon: data.list[0].weather[0].icon,
     humidity: data.list[0].main.humidity,
     windSpeed: Math.round(data.list[0].wind.speed),
-    forecast: data.list.filter((_: any, index: number) => index % 8 === 0 || index === 39).slice(1, 6).map((item: any) => ({
+    forecast: data.list.filter((_: unknown, index: number) => index % 8 === 0 || index === 39).slice(1, 6).map((item: { dt: number; main: { temp: number }; weather: { description: string; icon: string }[] }) => ({
       date: new Date(item.dt * 1000).toLocaleDateString('en-US', { weekday: 'short' }),
       temperature: Math.round(item.main.temp),
       description: item.weather[0].description,
@@ -47,7 +47,7 @@ export async function searchLocation(query: string): Promise<{ lat: number; lon:
   );
   const data = await response.json();
 
-  return data.results.map((result: any) => ({
+  return data.results.map((result: { geometry: { lat: number; lng: number }; formatted: string }) => ({
     lat: result.geometry.lat,
     lon: result.geometry.lng,
     display_name: result.formatted,
